@@ -213,19 +213,19 @@ class Drawing(object):
         return self.scale_to_fit(width, 1e9, padding)
 
     def scale_to_fit(self, width, height, padding=0):
-        width -= padding * 2
-        height -= padding * 2
-        scale = min(width / self.width, height / self.height)
+        s_width = width - padding * 2
+        s_height = height - padding * 2
+        scale = min(s_width / self.width, s_height / self.height)
         return self.scale(scale, scale).center(width, height)
 
     def rotate_and_scale_to_fit(self, width, height, padding=0, step=1):
         values = []
-        width -= padding * 2
-        height -= padding * 2
+        s_width = width - padding * 2
+        s_height = height - padding * 2
         hull = Drawing([self.convex_hull])
         for angle in range(0, 180, step):
             d = hull.rotate(angle)
-            scale = min(width / d.width, height / d.height)
+            scale = min(s_width / d.width, s_height / d.height)
             values.append((scale, angle))
         scale, angle = max(values)
         return self.rotate(angle).scale(scale, scale).center(width, height)
